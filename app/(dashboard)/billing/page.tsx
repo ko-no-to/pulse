@@ -3,48 +3,48 @@
 import Topbar from "../../components/Topbar";
 
 const invoiceHistory = [
-  { period: "January 2025", customers: 47, fee: "€940", status: "Due", dueDate: "Feb 1, 2025" },
+  { period: "January 2025",  customers: 47, fee: "€940", status: "Due",  dueDate: "Feb 1, 2025" },
   { period: "December 2024", customers: 38, fee: "€760", status: "Paid", dueDate: "Jan 1, 2025" },
   { period: "November 2024", customers: 28, fee: "€560", status: "Paid", dueDate: "Dec 1, 2024" },
-  { period: "October 2024", customers: 22, fee: "€440", status: "Paid", dueDate: "Nov 1, 2024" },
+  { period: "October 2024",  customers: 22, fee: "€440", status: "Paid", dueDate: "Nov 1, 2024" },
 ];
 
 export default function BillingPage() {
   return (
-    <div>
+    <div style={{ background: "#F6F6F1", minHeight: "100%" }}>
       <Topbar title="Billing" />
-      <div style={{ padding: "28px 32px", maxWidth: "900px" }}>
+      <div style={{ padding: "28px", maxWidth: "860px" }}>
 
-        {/* Current month summary */}
+        {/* Current period card */}
         <div
           style={{
-            background: "#1a1917",
-            border: "1px solid #2a2927",
-            borderRadius: "8px",
+            background: "#FFFFFF",
+            border: "1px solid #E8E8E2",
+            borderRadius: "12px",
             padding: "28px 32px",
-            marginBottom: "24px",
+            marginBottom: "20px",
           }}
         >
           <div
             style={{
               fontSize: "11px",
-              fontWeight: 700,
-              letterSpacing: "0.12em",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
-              color: "#7a7570",
+              color: "#6B6B66",
               marginBottom: "20px",
             }}
           >
             Current Period — January 2025
           </div>
 
-          {/* Big number */}
-          <div style={{ display: "flex", alignItems: "flex-end", gap: "16px", marginBottom: "24px" }}>
+          {/* Amount + status */}
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "14px", marginBottom: "24px" }}>
             <div
               style={{
-                fontSize: "56px",
-                fontWeight: 800,
-                color: "#c8440f",
+                fontSize: "48px",
+                fontWeight: 700,
+                color: "#C8440F",
                 lineHeight: 1,
                 letterSpacing: "-0.03em",
               }}
@@ -54,124 +54,76 @@ export default function BillingPage() {
             <div style={{ paddingBottom: "8px" }}>
               <span
                 style={{
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  color: "#d97706",
-                  background: "rgba(217,119,6,0.1)",
-                  border: "1px solid rgba(217,119,6,0.25)",
-                  padding: "3px 8px",
-                  borderRadius: "4px",
+                  fontSize: "12px",
+                  fontWeight: 500,
+                  color: "#B45309",
+                  background: "#FEF3E2",
+                  padding: "3px 10px",
+                  borderRadius: "6px",
                 }}
               >
-                DUE FEB 1
+                Due Feb 1
               </span>
             </div>
           </div>
 
-          {/* Breakdown table */}
+          {/* Invoice table */}
           <div
             style={{
-              border: "1px solid #2a2927",
-              borderRadius: "6px",
+              border: "1px solid #E8E8E2",
+              borderRadius: "8px",
               overflow: "hidden",
               marginBottom: "20px",
             }}
           >
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid #2a2927", background: "#0f0e0d" }}>
-                  <th
-                    style={{
-                      padding: "10px 16px",
-                      textAlign: "left",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "#7a7570",
-                    }}
-                  >
-                    Item
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px 16px",
-                      textAlign: "right",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "#7a7570",
-                    }}
-                  >
-                    Qty
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px 16px",
-                      textAlign: "right",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "#7a7570",
-                    }}
-                  >
-                    Unit Price
-                  </th>
-                  <th
-                    style={{
-                      padding: "10px 16px",
-                      textAlign: "right",
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: "#7a7570",
-                    }}
-                  >
-                    Total
-                  </th>
+                <tr style={{ borderBottom: "1px solid #E8E8E2", background: "#FAFAF7" }}>
+                  {["Item", "Qty", "Unit Price", "Total"].map((h, i) => (
+                    <th
+                      key={h}
+                      style={{
+                        padding: "10px 16px",
+                        textAlign: i === 0 ? "left" : "right",
+                        fontSize: "11px",
+                        fontWeight: 600,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        color: "#6B6B66",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ borderBottom: "1px solid #2a2927" }}>
-                  <td style={{ padding: "14px 16px", fontSize: "13px", color: "#f0ede8" }}>
+                <tr style={{ borderBottom: "1px solid #E8E8E2" }}>
+                  <td style={{ padding: "16px", fontSize: "14px", color: "#1A1A18" }}>
                     New first-time customers delivered
-                    <div style={{ fontSize: "11px", color: "#7a7570", marginTop: "2px" }}>
+                    <div style={{ fontSize: "12px", color: "#9B9B96", marginTop: "2px" }}>
                       Pulse-attributed · 60-day window · Meta + Shopify
                     </div>
                   </td>
-                  <td style={{ padding: "14px 16px", fontSize: "13px", color: "#f0ede8", textAlign: "right", fontWeight: 600 }}>
-                    47
-                  </td>
-                  <td style={{ padding: "14px 16px", fontSize: "13px", color: "#7a7570", textAlign: "right" }}>
-                    €20.00
-                  </td>
-                  <td style={{ padding: "14px 16px", fontSize: "14px", color: "#f0ede8", textAlign: "right", fontWeight: 700 }}>
-                    €940.00
-                  </td>
+                  <td style={{ padding: "16px", fontSize: "14px", color: "#1A1A18", textAlign: "right", fontWeight: 600 }}>47</td>
+                  <td style={{ padding: "16px", fontSize: "14px", color: "#6B6B66", textAlign: "right" }}>€20.00</td>
+                  <td style={{ padding: "16px", fontSize: "14px", color: "#1A1A18", textAlign: "right", fontWeight: 700 }}>€940.00</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: "14px 16px", fontSize: "13px", color: "#7a7570" }}>
-                    Platform fee
-                  </td>
-                  <td style={{ padding: "14px 16px", textAlign: "right" }} />
-                  <td style={{ padding: "14px 16px", textAlign: "right" }} />
-                  <td style={{ padding: "14px 16px", fontSize: "13px", color: "#7a7570", textAlign: "right" }}>
-                    €0
-                  </td>
+                  <td style={{ padding: "16px", fontSize: "14px", color: "#9B9B96" }}>Platform fee</td>
+                  <td colSpan={2} />
+                  <td style={{ padding: "16px", fontSize: "14px", color: "#9B9B96", textAlign: "right" }}>€0</td>
                 </tr>
               </tbody>
               <tfoot>
-                <tr style={{ borderTop: "1px solid #2a2927", background: "#0f0e0d" }}>
+                <tr style={{ borderTop: "1px solid #E8E8E2", background: "#FAFAF7" }}>
                   <td
                     colSpan={3}
                     style={{
                       padding: "14px 16px",
                       fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#f0ede8",
+                      fontWeight: 600,
+                      color: "#1A1A18",
                       textTransform: "uppercase",
                       letterSpacing: "0.05em",
                     }}
@@ -182,8 +134,8 @@ export default function BillingPage() {
                     style={{
                       padding: "14px 16px",
                       fontSize: "16px",
-                      fontWeight: 800,
-                      color: "#c8440f",
+                      fontWeight: 700,
+                      color: "#C8440F",
                       textAlign: "right",
                     }}
                   >
@@ -194,59 +146,59 @@ export default function BillingPage() {
             </table>
           </div>
 
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.12)",
-                color: "#f0ede8",
-                fontSize: "13px",
-                fontWeight: 500,
-                padding: "9px 18px",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-            >
-              Download Invoice
-            </button>
-          </div>
+          <button
+            style={{
+              background: "#FFFFFF",
+              border: "1px solid #D4D4CC",
+              color: "#1A1A18",
+              fontSize: "14px",
+              fontWeight: 500,
+              padding: "10px 20px",
+              borderRadius: "8px",
+              cursor: "pointer",
+            }}
+          >
+            Download Invoice
+          </button>
         </div>
 
         {/* Invoice history */}
         <div
           style={{
             fontSize: "11px",
-            fontWeight: 700,
-            letterSpacing: "0.12em",
+            fontWeight: 600,
+            letterSpacing: "0.08em",
             textTransform: "uppercase",
-            color: "#7a7570",
-            marginBottom: "12px",
+            color: "#6B6B66",
+            marginBottom: "10px",
           }}
         >
           Invoice History
         </div>
+
         <div
           style={{
-            background: "#1a1917",
-            border: "1px solid #2a2927",
-            borderRadius: "8px",
+            background: "#FFFFFF",
+            border: "1px solid #E8E8E2",
+            borderRadius: "12px",
             overflow: "hidden",
+            marginBottom: "16px",
           }}
         >
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr style={{ borderBottom: "1px solid #2a2927" }}>
+              <tr style={{ borderBottom: "1px solid #E8E8E2", background: "#FAFAF7" }}>
                 {["Period", "New Customers", "Amount", "Due Date", "Status", ""].map((h) => (
                   <th
                     key={h}
                     style={{
-                      padding: "12px 20px",
+                      padding: "11px 20px",
                       textAlign: "left",
                       fontSize: "11px",
-                      fontWeight: 700,
-                      letterSpacing: "0.1em",
+                      fontWeight: 600,
+                      letterSpacing: "0.08em",
                       textTransform: "uppercase",
-                      color: "#7a7570",
+                      color: "#6B6B66",
                     }}
                   >
                     {h}
@@ -258,41 +210,31 @@ export default function BillingPage() {
               {invoiceHistory.map((inv, i) => (
                 <tr
                   key={inv.period}
-                  style={{
-                    borderBottom: i < invoiceHistory.length - 1 ? "1px solid #2a2927" : "none",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "#222120")}
+                  style={{ borderBottom: i < invoiceHistory.length - 1 ? "1px solid #E8E8E2" : "none" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "#FAFAF7")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                 >
-                  <td style={{ padding: "14px 20px", fontSize: "13px", fontWeight: 500, color: "#f0ede8" }}>
+                  <td style={{ padding: "14px 20px", fontSize: "14px", fontWeight: 500, color: "#1A1A18" }}>
                     {inv.period}
                   </td>
-                  <td style={{ padding: "14px 20px", fontSize: "13px", color: "#7a7570" }}>
+                  <td style={{ padding: "14px 20px", fontSize: "14px", color: "#6B6B66" }}>
                     {inv.customers}
                   </td>
-                  <td style={{ padding: "14px 20px", fontSize: "13px", fontWeight: 600, color: "#f0ede8" }}>
+                  <td style={{ padding: "14px 20px", fontSize: "14px", fontWeight: 600, color: "#1A1A18" }}>
                     {inv.fee}
                   </td>
-                  <td style={{ padding: "14px 20px", fontSize: "13px", color: "#7a7570" }}>
+                  <td style={{ padding: "14px 20px", fontSize: "14px", color: "#6B6B66" }}>
                     {inv.dueDate}
                   </td>
                   <td style={{ padding: "14px 20px" }}>
                     <span
                       style={{
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        color: inv.status === "Paid" ? "#2a9d6e" : "#d97706",
-                        background:
-                          inv.status === "Paid"
-                            ? "rgba(42,157,110,0.1)"
-                            : "rgba(217,119,6,0.1)",
-                        border: `1px solid ${
-                          inv.status === "Paid"
-                            ? "rgba(42,157,110,0.25)"
-                            : "rgba(217,119,6,0.25)"
-                        }`,
-                        padding: "2px 8px",
-                        borderRadius: "4px",
+                        fontSize: "12px",
+                        fontWeight: 500,
+                        color: inv.status === "Paid" ? "#156639" : "#B45309",
+                        background: inv.status === "Paid" ? "#EBF7F0" : "#FEF3E2",
+                        padding: "3px 10px",
+                        borderRadius: "6px",
                       }}
                     >
                       {inv.status}
@@ -301,12 +243,12 @@ export default function BillingPage() {
                   <td style={{ padding: "14px 20px", textAlign: "right" }}>
                     <button
                       style={{
-                        background: "transparent",
-                        border: "1px solid #2a2927",
-                        color: "#7a7570",
-                        fontSize: "11px",
-                        padding: "4px 10px",
-                        borderRadius: "4px",
+                        background: "#FFFFFF",
+                        border: "1px solid #E8E8E2",
+                        color: "#6B6B66",
+                        fontSize: "12px",
+                        padding: "4px 12px",
+                        borderRadius: "6px",
                         cursor: "pointer",
                       }}
                     >
@@ -322,14 +264,14 @@ export default function BillingPage() {
         {/* Trend note */}
         <div
           style={{
-            marginTop: "16px",
             padding: "12px 16px",
-            background: "rgba(42,157,110,0.05)",
-            border: "1px solid rgba(42,157,110,0.2)",
-            borderRadius: "6px",
-            fontSize: "13px",
-            color: "#2a9d6e",
+            background: "#EBF7F0",
+            border: "1px solid #1A7A4A",
+            borderRadius: "8px",
+            fontSize: "14px",
+            color: "#156639",
             fontWeight: 500,
+            marginBottom: "10px",
           }}
         >
           ↑ New customers growing 31% month over month
@@ -338,13 +280,12 @@ export default function BillingPage() {
         {/* Pricing note */}
         <div
           style={{
-            marginTop: "10px",
             padding: "12px 16px",
-            background: "#1a1917",
-            border: "1px solid rgba(255,255,255,0.07)",
-            borderRadius: "6px",
-            fontSize: "12px",
-            color: "#7a7570",
+            background: "#FFFFFF",
+            border: "1px solid #E8E8E2",
+            borderRadius: "8px",
+            fontSize: "13px",
+            color: "#9B9B96",
             lineHeight: "1.6",
           }}
         >

@@ -71,8 +71,8 @@ export default function Sidebar() {
       style={{
         width: "220px",
         minWidth: "220px",
-        background: "#0f0e0d",
-        borderRight: "1px solid rgba(255,255,255,0.07)",
+        background: "#FFFFFF",
+        borderRight: "1px solid #E8E8E2",
         display: "flex",
         flexDirection: "column",
         height: "100vh",
@@ -80,41 +80,44 @@ export default function Sidebar() {
         top: 0,
       }}
     >
-      {/* Logo */}
-      <div
-        style={{
-          padding: "28px 24px 24px",
-          borderBottom: "1px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "baseline", gap: "1px" }}>
-          <span
-            style={{
-              fontSize: "22px",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              color: "#f0ede8",
-            }}
-          >
-            Pulse
-          </span>
-          <span style={{ color: "#c8440f", fontSize: "22px", fontWeight: 700 }}>.</span>
-        </div>
+      {/* Logo pill — dark brand mark */}
+      <div style={{ padding: "20px 16px", borderBottom: "1px solid #E8E8E2" }}>
         <div
           style={{
-            fontSize: "11px",
-            color: "#4a4744",
-            letterSpacing: "0.06em",
-            marginTop: "3px",
-            textTransform: "uppercase",
+            background: "#1A1A18",
+            borderRadius: "10px",
+            padding: "12px 14px",
           }}
         >
-          New customer engine
+          <div style={{ display: "flex", alignItems: "baseline", gap: "1px" }}>
+            <span
+              style={{
+                fontSize: "18px",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                color: "#FFFFFF",
+              }}
+            >
+              Pulse
+            </span>
+            <span style={{ color: "#C8440F", fontSize: "18px", fontWeight: 700 }}>.</span>
+          </div>
+          <div
+            style={{
+              fontSize: "10px",
+              color: "rgba(255,255,255,0.45)",
+              letterSpacing: "0.06em",
+              marginTop: "2px",
+              textTransform: "uppercase",
+            }}
+          >
+            New customer engine
+          </div>
         </div>
       </div>
 
       {/* Nav */}
-      <nav style={{ flex: 1, padding: "12px 0" }}>
+      <nav style={{ flex: 1, padding: "10px 10px" }}>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -124,23 +127,25 @@ export default function Sidebar() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "10px",
-                padding: "9px 20px 9px 22px",
-                fontSize: "13.5px",
+                gap: "9px",
+                padding: "8px 10px",
+                fontSize: "14px",
                 fontWeight: isActive ? 500 : 400,
-                color: isActive ? "#f0ede8" : "#7a7570",
+                color: isActive ? "#A33508" : "#6B6B66",
                 textDecoration: "none",
-                borderLeft: isActive ? "2px solid #c8440f" : "2px solid transparent",
-                background: isActive ? "rgba(200, 68, 15, 0.06)" : "transparent",
-                transition: "color 0.15s ease, background 0.15s ease",
+                borderRadius: "8px",
+                borderLeft: isActive ? "2px solid #C8440F" : "2px solid transparent",
+                background: isActive ? "#FDF0EB" : "transparent",
+                marginBottom: "2px",
+                transition: "background 0.12s ease, color 0.12s ease",
               }}
             >
               <span
                 style={{
-                  color: isActive ? "#c8440f" : "#4a4744",
-                  transition: "color 0.15s ease",
+                  color: isActive ? "#C8440F" : "#9B9B96",
                   display: "flex",
                   alignItems: "center",
+                  flexShrink: 0,
                 }}
               >
                 {item.icon}
@@ -154,66 +159,73 @@ export default function Sidebar() {
       {/* Brand pill */}
       <div
         style={{
-          padding: "16px 20px",
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
+          padding: "12px 16px",
+          borderTop: "1px solid #E8E8E2",
         }}
       >
         <div
           style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "6px",
-            background: "#2a9d6e",
+            background: "#FFFFFF",
+            border: "1px solid #E8E8E2",
+            borderRadius: "10px",
+            padding: "10px 12px",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            fontSize: "11px",
-            fontWeight: 700,
-            color: "#0f0e0d",
-            letterSpacing: "0.02em",
-            flexShrink: 0,
+            gap: "10px",
           }}
         >
-          NB
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{
-              fontSize: "13px",
-              fontWeight: 500,
-              color: "#f0ede8",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            Noïse Botanics
-          </div>
-          <div
-            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              background: "#FDF0EB",
               display: "flex",
               alignItems: "center",
-              gap: "6px",
-              marginTop: "2px",
+              justifyContent: "center",
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#A33508",
+              letterSpacing: "0.02em",
+              flexShrink: 0,
             }}
           >
-            <span
-              className="animate-pulse-dot"
+            NB
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div
               style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "#2a9d6e",
-                display: "inline-block",
-                flexShrink: 0,
+                fontSize: "13px",
+                fontWeight: 500,
+                color: "#1A1A18",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
-            />
-            <span style={{ fontSize: "11px", color: "#2a9d6e", letterSpacing: "0.02em" }}>
-              Pulse running
-            </span>
+            >
+              Noïse Botanics
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                marginTop: "2px",
+              }}
+            >
+              <span
+                className="animate-pulse-dot"
+                style={{
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#1A7A4A",
+                  display: "inline-block",
+                  flexShrink: 0,
+                }}
+              />
+              <span style={{ fontSize: "12px", color: "#1A7A4A" }}>Pulse running</span>
+            </div>
           </div>
         </div>
       </div>

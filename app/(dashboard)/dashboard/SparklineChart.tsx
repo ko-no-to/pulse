@@ -3,21 +3,23 @@
 import {
   LineChart,
   Line,
+  Area,
+  AreaChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
 } from "recharts";
 
 const data = [
-  { day: "1", value: 1 },
-  { day: "2", value: 0 },
-  { day: "3", value: 2 },
-  { day: "4", value: 1 },
-  { day: "5", value: 3 },
-  { day: "6", value: 2 },
-  { day: "7", value: 4 },
-  { day: "8", value: 2 },
-  { day: "9", value: 3 },
+  { day: "1",  value: 1 },
+  { day: "2",  value: 0 },
+  { day: "3",  value: 2 },
+  { day: "4",  value: 1 },
+  { day: "5",  value: 3 },
+  { day: "6",  value: 2 },
+  { day: "7",  value: 4 },
+  { day: "8",  value: 2 },
+  { day: "9",  value: 3 },
   { day: "10", value: 5 },
   { day: "11", value: 2 },
   { day: "12", value: 4 },
@@ -47,17 +49,16 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div
         style={{
-          background: "#1a1917",
-          border: "1px solid rgba(255,255,255,0.07)",
-          borderRadius: "4px",
-          padding: "6px 10px",
+          background: "#FFFFFF",
+          border: "1px solid #E8E8E2",
+          borderRadius: "6px",
+          padding: "5px 10px",
           fontSize: "12px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
         }}
       >
-        <span style={{ color: "#7a7570" }}>Jan {label}: </span>
-        <span style={{ color: "#c8440f", fontWeight: 600 }}>
-          {payload[0].value}
-        </span>
+        <span style={{ color: "#9B9B96" }}>Jan {label}: </span>
+        <span style={{ color: "#C8440F", fontWeight: 600 }}>{payload[0].value}</span>
       </div>
     );
   }
@@ -68,21 +69,28 @@ export default function SparklineChart() {
   return (
     <div style={{ width: "100%", height: "72px" }}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <AreaChart data={data}>
+          <defs>
+            <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#C8440F" stopOpacity={0.12} />
+              <stop offset="100%" stopColor="#C8440F" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <XAxis dataKey="day" hide />
           <Tooltip
             content={<CustomTooltip />}
-            cursor={{ stroke: "rgba(255,255,255,0.08)", strokeWidth: 1 }}
+            cursor={{ stroke: "#E8E8E2", strokeWidth: 1 }}
           />
-          <Line
+          <Area
             type="monotone"
             dataKey="value"
-            stroke="#c8440f"
+            stroke="#C8440F"
             strokeWidth={2}
+            fill="url(#sparkFill)"
             dot={false}
-            activeDot={{ r: 3, fill: "#c8440f", strokeWidth: 0 }}
+            activeDot={{ r: 3, fill: "#C8440F", strokeWidth: 0 }}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

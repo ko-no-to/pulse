@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import SparklineChart from "./SparklineChart";
 
-const STAGE_COLORS: Record<string, { color: string; bg: string; border: string }> = {
-  QUALIFY: { color: "#7c9ef5", bg: "rgba(124,158,245,0.1)", border: "rgba(124,158,245,0.25)" },
-  PULSE:   { color: "#c8440f", bg: "rgba(200,68,15,0.1)",   border: "rgba(200,68,15,0.25)" },
-  LOOP:    { color: "#d4913a", bg: "rgba(212,145,58,0.1)",  border: "rgba(212,145,58,0.25)" },
-  CONVERT: { color: "#2a9d6e", bg: "rgba(42,157,110,0.1)", border: "rgba(42,157,110,0.25)" },
+const STAGE_STYLES: Record<string, { color: string; bg: string }> = {
+  QUALIFY: { color: "#1D5FA8", bg: "#EEF4FD" },
+  PULSE:   { color: "#A33508", bg: "#FDF0EB" },
+  LOOP:    { color: "#B45309", bg: "#FEF3E2" },
+  CONVERT: { color: "#156639", bg: "#EBF7F0" },
 };
 
 const cycles = [
@@ -24,30 +24,23 @@ const recentCustomers = [
 ];
 
 export default function DashboardPage() {
-  const [count, setCount] = useState(47);
-
-  const handleNewCustomer = useCallback(() => {
-    setCount((c) => c + 1);
-  }, []);
-
+  const [count] = useState(47);
   const pulseFee = count * 20;
 
   return (
-    <div style={{ padding: "28px 32px" }}>
-      {/* Two-column layout */}
+    <div style={{ padding: "28px", background: "#F6F6F1", minHeight: "100%" }}>
       <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
 
         {/* LEFT COLUMN — 2/3 */}
-        <div style={{ flex: "2", minWidth: 0 }}>
+        <div style={{ flex: "2", minWidth: 0, display: "flex", flexDirection: "column", gap: "16px" }}>
 
           {/* Hero metric card */}
           <div
             style={{
-              background: "#1a1917",
-              border: "1px solid rgba(255,255,255,0.07)",
-              borderRadius: "8px",
-              padding: "28px 32px",
-              marginBottom: "16px",
+              background: "#FFFFFF",
+              border: "1px solid #E8E8E2",
+              borderRadius: "12px",
+              padding: "24px 28px",
               display: "flex",
               alignItems: "center",
               gap: "32px",
@@ -57,30 +50,30 @@ export default function DashboardPage() {
               <div
                 style={{
                   fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "0.14em",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  color: "#7a7570",
-                  marginBottom: "8px",
+                  color: "#6B6B66",
+                  marginBottom: "10px",
                 }}
               >
                 New customers this month
               </div>
               <div
                 style={{
-                  fontSize: "80px",
-                  fontWeight: 800,
-                  color: "#c8440f",
+                  fontSize: "56px",
+                  fontWeight: 700,
+                  color: "#C8440F",
                   lineHeight: 1,
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.03em",
                   marginBottom: "10px",
                   fontVariantNumeric: "tabular-nums",
                 }}
               >
                 {count}
               </div>
-              <div style={{ fontSize: "13px", color: "#7a7570" }}>
-                €{avgCost} avg. cost per new customer · €{pulseFee.toLocaleString()} Pulse fee this month
+              <div style={{ fontSize: "14px", color: "#6B6B66" }}>
+                €38 avg. cost per new customer · €{pulseFee.toLocaleString()} Pulse fee this month
               </div>
             </div>
 
@@ -92,7 +85,7 @@ export default function DashboardPage() {
                   fontWeight: 600,
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  color: "#4a4744",
+                  color: "#9B9B96",
                   marginBottom: "10px",
                 }}
               >
@@ -102,115 +95,99 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Recent customers preview */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "10px",
-            }}
-          >
+          {/* Recent customers */}
+          <div>
             <div
               style={{
-                fontSize: "11px",
-                fontWeight: 700,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#7a7570",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px",
               }}
             >
-              Recent customers
-            </div>
-            <Link
-              href="/customers"
-              style={{ fontSize: "13px", color: "#c8440f", textDecoration: "none" }}
-            >
-              View all →
-            </Link>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {recentCustomers.map((c) => (
               <div
-                key={c.id}
                 style={{
-                  background: "#1a1917",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  borderRadius: "8px",
-                  padding: "14px 20px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "16px",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "#6B6B66",
                 }}
               >
-                {/* Avatar */}
+                Recent customers
+              </div>
+              <Link
+                href="/customers"
+                style={{ fontSize: "13px", color: "#A33508", textDecoration: "none", fontWeight: 500 }}
+              >
+                View all →
+              </Link>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {recentCustomers.map((c) => (
                 <div
+                  key={c.id}
                   style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "50%",
-                    background: "rgba(42,157,110,0.12)",
-                    border: "1px solid rgba(42,157,110,0.25)",
+                    background: "#FFFFFF",
+                    border: "1px solid #E8E8E2",
+                    borderRadius: "12px",
+                    padding: "14px 20px",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
+                    gap: "14px",
                   }}
                 >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="#2a9d6e" strokeWidth="1.4" />
-                    <path d="M5 7l1.5 1.5L9 5" stroke="#2a9d6e" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-
-                {/* Info */}
-                <div style={{ flex: 1, minWidth: 0 }}>
                   <div
                     style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                      background: "#EBF7F0",
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px",
-                      marginBottom: "3px",
+                      justifyContent: "center",
+                      flexShrink: 0,
                     }}
                   >
-                    <span style={{ fontSize: "13px", fontWeight: 600, color: "#f0ede8" }}>
-                      {c.id}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        fontWeight: 700,
-                        color: "#2a9d6e",
-                        background: "rgba(42,157,110,0.1)",
-                        border: "1px solid rgba(42,157,110,0.2)",
-                        padding: "1px 6px",
-                        borderRadius: "3px",
-                        letterSpacing: "0.06em",
-                      }}
-                    >
-                      FIRST PURCHASE
-                    </span>
-                    <span style={{ fontSize: "13px", fontWeight: 600, color: "#f0ede8" }}>
-                      {c.value}
-                    </span>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <rect x="2" y="2" width="10" height="10" rx="2" stroke="#1A7A4A" strokeWidth="1.4" />
+                      <path d="M4.5 7L6 8.5L9.5 5" stroke="#1A7A4A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </div>
-                  <div style={{ fontSize: "12px", color: "#7a7570" }}>
-                    {c.days} days from first Pulse touch ·{" "}
-                    <span style={{ color: "#4a4744" }}>{c.cycle}</span>
-                  </div>
-                </div>
 
-                <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div style={{ fontSize: "12px", color: "#4a4744", marginBottom: "3px" }}>
-                    {c.time}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "3px" }}>
+                      <span style={{ fontSize: "14px", fontWeight: 600, color: "#1A1A18" }}>{c.id}</span>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 500,
+                          color: "#156639",
+                          background: "#EBF7F0",
+                          padding: "2px 8px",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        First purchase
+                      </span>
+                      <span style={{ fontSize: "14px", fontWeight: 600, color: "#1A1A18" }}>{c.value}</span>
+                    </div>
+                    <div style={{ fontSize: "13px", color: "#6B6B66" }}>
+                      {c.days} days from first Pulse touch ·{" "}
+                      <span style={{ color: "#9B9B96" }}>{c.cycle}</span>
+                    </div>
                   </div>
-                  <a href="#" style={{ fontSize: "12px", color: "#c8440f", textDecoration: "none" }}>
-                    Verify in Shopify →
-                  </a>
+
+                  <div style={{ textAlign: "right", flexShrink: 0 }}>
+                    <div style={{ fontSize: "12px", color: "#9B9B96", marginBottom: "3px" }}>{c.time}</div>
+                    <a href="#" style={{ fontSize: "13px", color: "#A33508", textDecoration: "none" }}>
+                      Verify in Shopify →
+                    </a>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -218,13 +195,13 @@ export default function DashboardPage() {
         <div style={{ flex: "1", minWidth: 0 }}>
           <div
             style={{
-              background: "#1a1917",
-              border: "1px solid rgba(255,255,255,0.07)",
-              borderRadius: "8px",
-              padding: "20px 24px",
+              background: "#FFFFFF",
+              border: "1px solid #E8E8E2",
+              borderRadius: "12px",
+              padding: "20px 22px",
             }}
           >
-            {/* Engine status header */}
+            {/* Header */}
             <div
               style={{
                 display: "flex",
@@ -236,36 +213,34 @@ export default function DashboardPage() {
               <div
                 style={{
                   fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "0.14em",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  color: "#7a7570",
+                  color: "#6B6B66",
                 }}
               >
                 Engine status
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                 <span
                   className="animate-pulse-dot"
                   style={{
                     width: "6px",
                     height: "6px",
                     borderRadius: "50%",
-                    background: "#2a9d6e",
+                    background: "#1A7A4A",
                     display: "inline-block",
                     flexShrink: 0,
                   }}
                 />
-                <span style={{ fontSize: "12px", color: "#2a9d6e", fontWeight: 500 }}>
-                  Running
-                </span>
+                <span style={{ fontSize: "12px", color: "#156639", fontWeight: 500 }}>Running</span>
               </div>
             </div>
 
             {/* Cycle rows */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
               {cycles.map((cycle) => {
-                const s = STAGE_COLORS[cycle.stage];
+                const s = STAGE_STYLES[cycle.stage];
                 return (
                   <div key={cycle.name}>
                     <div
@@ -273,16 +248,16 @@ export default function DashboardPage() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        marginBottom: "6px",
+                        marginBottom: "7px",
+                        gap: "8px",
                       }}
                     >
                       <span
                         style={{
-                          fontSize: "12px",
+                          fontSize: "13px",
                           fontWeight: 500,
-                          color: "#f0ede8",
+                          color: "#1A1A18",
                           flex: 1,
-                          marginRight: "8px",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
@@ -292,14 +267,12 @@ export default function DashboardPage() {
                       </span>
                       <span
                         style={{
-                          fontSize: "10px",
-                          fontWeight: 700,
-                          letterSpacing: "0.08em",
+                          fontSize: "11px",
+                          fontWeight: 500,
                           color: s.color,
                           background: s.bg,
-                          border: `1px solid ${s.border}`,
-                          padding: "2px 6px",
-                          borderRadius: "3px",
+                          padding: "2px 8px",
+                          borderRadius: "4px",
                           flexShrink: 0,
                         }}
                       >
@@ -307,12 +280,11 @@ export default function DashboardPage() {
                       </span>
                     </div>
 
-                    {/* Progress bar */}
                     <div
                       style={{
-                        height: "3px",
-                        background: "rgba(255,255,255,0.06)",
-                        borderRadius: "2px",
+                        height: "6px",
+                        background: "#E8E8E2",
+                        borderRadius: "3px",
                         marginBottom: "5px",
                         overflow: "hidden",
                       }}
@@ -321,37 +293,29 @@ export default function DashboardPage() {
                         style={{
                           height: "100%",
                           width: `${cycle.progress}%`,
-                          background: s.color,
-                          borderRadius: "2px",
+                          background: "#C8440F",
+                          borderRadius: "3px",
                         }}
                       />
                     </div>
-
-                    <div style={{ fontSize: "11px", color: "#4a4744" }}>{cycle.stat}</div>
+                    <div style={{ fontSize: "12px", color: "#9B9B96" }}>{cycle.stat}</div>
                   </div>
                 );
               })}
             </div>
 
             {/* Stat pills */}
-            <div
-              style={{
-                display: "flex",
-                gap: "8px",
-                marginTop: "20px",
-                flexWrap: "wrap",
-              }}
-            >
+            <div style={{ display: "flex", gap: "6px", marginTop: "20px", flexWrap: "wrap" }}>
               {["Creative rotation in 3 days", "Next cycle starts 24 Jan"].map((pill) => (
                 <div
                   key={pill}
                   style={{
                     fontSize: "11px",
-                    color: "#7a7570",
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.07)",
+                    color: "#6B6B66",
+                    background: "#FAFAF7",
+                    border: "1px solid #E8E8E2",
                     padding: "4px 10px",
-                    borderRadius: "4px",
+                    borderRadius: "6px",
                   }}
                 >
                   {pill}
@@ -364,9 +328,10 @@ export default function DashboardPage() {
               style={{
                 display: "block",
                 marginTop: "16px",
-                fontSize: "12px",
-                color: "#c8440f",
+                fontSize: "13px",
+                color: "#A33508",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               View engine details →
@@ -377,5 +342,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-const avgCost = 38;

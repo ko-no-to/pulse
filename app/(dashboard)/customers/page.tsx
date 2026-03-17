@@ -36,14 +36,14 @@ const SEED_CUSTOMERS: Customer[] = [
 let nextId = 4822;
 function generateCustomer(): Customer {
   const values = [58, 67, 72, 79, 84, 88, 93, 103, 112, 120, 134, 145];
-  const dayRanges = [7, 9, 11, 14, 16, 18, 20, 22, 25, 28, 31, 37, 44];
+  const days = [7, 9, 11, 14, 16, 18, 20, 22, 25, 28, 31, 37, 44];
   const now = new Date();
   const h = now.getHours().toString().padStart(2, "0");
   const m = now.getMinutes().toString().padStart(2, "0");
   return {
     id: `#${nextId++}`,
     value: `€${values[Math.floor(Math.random() * values.length)]}`,
-    days: dayRanges[Math.floor(Math.random() * dayRanges.length)],
+    days: days[Math.floor(Math.random() * days.length)],
     cycle: CYCLES[Math.floor(Math.random() * CYCLES.length)],
     time: `Today, ${h}:${m}`,
     isNew: true,
@@ -57,7 +57,7 @@ export default function CustomersPage() {
   const [count, setCount] = useState(47);
   const [period, setPeriod] = useState("This month");
 
-  // Clear isNew glow after 3s
+  // Clear isNew flag after 4s
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     customers.forEach((c) => {
@@ -66,7 +66,7 @@ export default function CustomersPage() {
           setCustomers((prev) =>
             prev.map((p) => (p.id === c.id ? { ...p, isNew: false } : p))
           );
-        }, 3000);
+        }, 4000);
         timers.push(t);
       }
     });
@@ -88,14 +88,14 @@ export default function CustomersPage() {
   }, []);
 
   return (
-    <div style={{ padding: "28px 32px", maxWidth: "820px" }}>
+    <div style={{ padding: "28px", background: "#F6F6F1", minHeight: "100%" }}>
 
       {/* Counter card */}
       <div
         style={{
-          background: "#1a1917",
-          border: "1px solid rgba(255,255,255,0.07)",
-          borderRadius: "8px",
+          background: "#FFFFFF",
+          border: "1px solid #E8E8E2",
+          borderRadius: "12px",
           padding: "24px 28px",
           marginBottom: "20px",
           display: "flex",
@@ -108,9 +108,9 @@ export default function CustomersPage() {
         <div>
           <div
             style={{
-              fontSize: "56px",
-              fontWeight: 800,
-              color: "#c8440f",
+              fontSize: "48px",
+              fontWeight: 700,
+              color: "#C8440F",
               lineHeight: 1,
               letterSpacing: "-0.03em",
               marginBottom: "6px",
@@ -119,10 +119,10 @@ export default function CustomersPage() {
           >
             {count}
           </div>
-          <div style={{ fontSize: "13px", color: "#f0ede8", fontWeight: 500 }}>
+          <div style={{ fontSize: "14px", color: "#1A1A18", fontWeight: 500, marginBottom: "3px" }}>
             new customers this month
           </div>
-          <div style={{ fontSize: "12px", color: "#7a7570", marginTop: "4px" }}>
+          <div style={{ fontSize: "13px", color: "#6B6B66" }}>
             Each verified against your Shopify first-purchase data · 60-day attribution window
           </div>
         </div>
@@ -134,13 +134,13 @@ export default function CustomersPage() {
               key={p}
               onClick={() => setPeriod(p)}
               style={{
-                background: period === p ? "rgba(200,68,15,0.1)" : "transparent",
-                border: `1px solid ${period === p ? "rgba(200,68,15,0.4)" : "rgba(255,255,255,0.1)"}`,
-                color: period === p ? "#c8440f" : "#7a7570",
-                fontSize: "12px",
-                fontWeight: period === p ? 600 : 400,
-                padding: "6px 12px",
-                borderRadius: "6px",
+                background: period === p ? "#FDF0EB" : "#FFFFFF",
+                border: `1px solid ${period === p ? "#C8440F" : "#D4D4CC"}`,
+                color: period === p ? "#A33508" : "#6B6B66",
+                fontSize: "13px",
+                fontWeight: period === p ? 500 : 400,
+                padding: "7px 14px",
+                borderRadius: "8px",
                 cursor: "pointer",
               }}
             >
@@ -154,10 +154,10 @@ export default function CustomersPage() {
       <div
         style={{
           fontSize: "11px",
-          fontWeight: 700,
-          letterSpacing: "0.14em",
+          fontWeight: 600,
+          letterSpacing: "0.08em",
           textTransform: "uppercase",
-          color: "#7a7570",
+          color: "#6B6B66",
           marginBottom: "10px",
         }}
       >
@@ -171,20 +171,20 @@ export default function CustomersPage() {
             <motion.div
               key={c.id}
               layout
-              initial={{ opacity: 0, y: -24 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               style={{
-                background: "#1a1917",
-                border: `1px solid ${c.isNew ? "rgba(42,157,110,0.4)" : "rgba(255,255,255,0.07)"}`,
-                borderRadius: "8px",
+                background: "#FFFFFF",
+                border: "1px solid #E8E8E2",
+                borderLeft: c.isNew ? "3px solid #1A7A4A" : "1px solid #E8E8E2",
+                borderRadius: "12px",
                 padding: "16px 20px",
                 display: "flex",
                 alignItems: "center",
                 gap: "16px",
-                boxShadow: c.isNew ? "0 0 20px rgba(42,157,110,0.12)" : "none",
-                transition: "border-color 0.6s ease, box-shadow 0.6s ease",
+                transition: "border-left-color 0.6s ease",
               }}
             >
               {/* Avatar */}
@@ -193,8 +193,7 @@ export default function CustomersPage() {
                   width: "38px",
                   height: "38px",
                   borderRadius: "50%",
-                  background: "rgba(42,157,110,0.12)",
-                  border: "1px solid rgba(42,157,110,0.25)",
+                  background: "#EBF7F0",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -202,8 +201,8 @@ export default function CustomersPage() {
                 }}
               >
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                  <rect x="2" y="2" width="11" height="11" rx="2.5" stroke="#2a9d6e" strokeWidth="1.4" />
-                  <path d="M5 7.5L6.5 9L10 6" stroke="#2a9d6e" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  <rect x="2" y="2" width="11" height="11" rx="2.5" stroke="#1A7A4A" strokeWidth="1.4" />
+                  <path d="M5 7.5L6.5 9L10 6" stroke="#1A7A4A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
 
@@ -218,52 +217,43 @@ export default function CustomersPage() {
                     flexWrap: "wrap",
                   }}
                 >
-                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#f0ede8" }}>
-                    {c.id}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: 700,
-                      letterSpacing: "0.06em",
-                      color: "#2a9d6e",
-                      background: "rgba(42,157,110,0.1)",
-                      border: "1px solid rgba(42,157,110,0.2)",
-                      padding: "2px 6px",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    FIRST PURCHASE
-                  </span>
-                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#f0ede8" }}>
-                    {c.value}
-                  </span>
-                </div>
-                <div style={{ fontSize: "12px", color: "#7a7570" }}>
-                  {c.days} days from first Pulse touch to purchase
-                </div>
-                <div style={{ marginTop: "4px" }}>
+                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#1A1A18" }}>{c.id}</span>
                   <span
                     style={{
                       fontSize: "11px",
-                      color: "#4a4744",
-                      background: "rgba(255,255,255,0.03)",
-                      border: "1px solid rgba(255,255,255,0.07)",
-                      padding: "2px 7px",
-                      borderRadius: "3px",
+                      fontWeight: 500,
+                      color: "#156639",
+                      background: "#EBF7F0",
+                      padding: "2px 8px",
+                      borderRadius: "4px",
                     }}
                   >
-                    {c.cycle}
+                    First purchase
                   </span>
+                  <span style={{ fontSize: "15px", fontWeight: 600, color: "#1A1A18" }}>{c.value}</span>
                 </div>
+                <div style={{ fontSize: "13px", color: "#6B6B66", marginBottom: "5px" }}>
+                  {c.days} days from first Pulse touch to purchase
+                </div>
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "#6B6B66",
+                    background: "#FAFAF7",
+                    border: "1px solid #E8E8E2",
+                    padding: "2px 8px",
+                    borderRadius: "4px",
+                    display: "inline-block",
+                  }}
+                >
+                  {c.cycle}
+                </span>
               </div>
 
-              {/* Right side */}
+              {/* Right */}
               <div style={{ textAlign: "right", flexShrink: 0 }}>
-                <div style={{ fontSize: "12px", color: "#4a4744", marginBottom: "5px" }}>
-                  {c.time}
-                </div>
-                <a href="#" style={{ fontSize: "12px", color: "#c8440f", textDecoration: "none" }}>
+                <div style={{ fontSize: "12px", color: "#9B9B96", marginBottom: "5px" }}>{c.time}</div>
+                <a href="#" style={{ fontSize: "13px", color: "#A33508", textDecoration: "none", fontWeight: 500 }}>
                   Verify in Shopify →
                 </a>
               </div>
@@ -277,18 +267,18 @@ export default function CustomersPage() {
         style={{
           marginTop: "20px",
           padding: "14px 18px",
-          background: "#1a1917",
-          border: "1px solid rgba(255,255,255,0.07)",
-          borderRadius: "8px",
-          fontSize: "12px",
-          color: "#4a4744",
+          background: "#FFFFFF",
+          border: "1px solid #E8E8E2",
+          borderRadius: "12px",
+          fontSize: "13px",
+          color: "#9B9B96",
           lineHeight: "1.7",
         }}
       >
         Pulse uses server-side first-purchase tracking. Every customer shown here placed their
         first ever order with your store within 60 days of a Pulse ad touch. You can verify any
         entry by clicking{" "}
-        <span style={{ color: "#7a7570" }}>'Verify in Shopify'</span> on the card. Already
+        <span style={{ color: "#6B6B66" }}>'Verify in Shopify'</span> on the card. Already
         using Littledata or Elevar? Pulse connects in one click.
       </div>
     </div>

@@ -3,8 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f0e0d;
-  --foreground: #f0ede8;
+  --background: #F6F6F1;
+  --surface: #FFFFFF;
+  --surface-raised: #FAFAF7;
+  --ink: #1A1A18;
+  --muted: #6B6B66;
+  --subtle: #9B9B96;
+  --border: #E8E8E2;
+  --border-strong: #D4D4CC;
+  --accent: #C8440F;
+  --accent-light: #FDF0EB;
+  --accent-text: #A33508;
+  --green: #1A7A4A;
+  --green-light: #EBF7F0;
+  --green-text: #156639;
+  --amber: #B45309;
+  --amber-light: #FEF3E2;
+  --blue: #1D5FA8;
+  --blue-light: #EEF4FD;
 }
 
 * {
@@ -12,15 +28,15 @@
 }
 
 body {
-  color: #f0ede8;
-  background: #0f0e0d;
-  font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--background);
+  font-family: Inter, var(--font-geist-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 0.35; transform: scale(0.8); }
 }
 
 .animate-pulse-dot {
@@ -33,9 +49,9 @@ body {
   height: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f0e0d;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2927;
+  background: var(--border-strong);
   border-radius: 2px;
 }
