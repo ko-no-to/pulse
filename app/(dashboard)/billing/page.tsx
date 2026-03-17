@@ -319,10 +319,26 @@ export default function BillingPage() {
           </table>
         </div>
 
-        {/* Pricing note */}
+        {/* Trend note */}
         <div
           style={{
             marginTop: "16px",
+            padding: "12px 16px",
+            background: "rgba(42,157,110,0.05)",
+            border: "1px solid rgba(42,157,110,0.2)",
+            borderRadius: "6px",
+            fontSize: "13px",
+            color: "#2a9d6e",
+            fontWeight: 500,
+          }}
+        >
+          ↑ New customers growing 31% month over month
+        </div>
+
+        {/* Pricing note */}
+        <div
+          style={{
+            marginTop: "10px",
             padding: "12px 16px",
             background: "#1a1917",
             border: "1px solid rgba(255,255,255,0.07)",
@@ -332,8 +348,8 @@ export default function BillingPage() {
             lineHeight: "1.6",
           }}
         >
-          You are invoiced once per month for verified new customers only. Each customer is verified
-          against your Shopify first-purchase data before being included.
+          You are invoiced once per month for verified new customers only. Verification uses your
+          Shopify first-purchase data. You can cross-check every line against your Shopify orders.
         </div>
       </div>
     </div>

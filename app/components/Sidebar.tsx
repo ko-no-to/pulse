@@ -17,14 +17,24 @@ const navItems = [
     ),
   },
   {
-    label: "Connections",
-    href: "/connections",
+    label: "Engine",
+    href: "/engine",
     icon: (
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-        <circle cx="3" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
-        <circle cx="12" cy="3" r="2" stroke="currentColor" strokeWidth="1.4" />
-        <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.4" />
-        <path d="M5 7.5H8.5M8.5 7.5L10 3M8.5 7.5L10 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="7.5" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M7.5 1.5V3M7.5 12V13.5M1.5 7.5H3M12 7.5H13.5M3.4 3.4L4.5 4.5M10.5 10.5L11.6 11.6M11.6 3.4L10.5 4.5M4.5 10.5L3.4 11.6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "Customers",
+    href: "/customers",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <circle cx="5.5" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M1 13c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M10.5 6.5c1 0 2 .8 2 2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M12 3.5a1.5 1.5 0 1 1 0 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -36,6 +46,18 @@ const navItems = [
         <rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
         <path d="M1.5 6H13.5" stroke="currentColor" strokeWidth="1.4" />
         <path d="M4.5 9.5H6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "Connections",
+    href: "/connections",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <circle cx="3" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <circle cx="12" cy="3" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M5 7.5H8.5M8.5 7.5L10 3M8.5 7.5L10 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -76,9 +98,7 @@ export default function Sidebar() {
           >
             Pulse
           </span>
-          <span style={{ color: "#c8440f", fontSize: "22px", fontWeight: 700 }}>
-            .
-          </span>
+          <span style={{ color: "#c8440f", fontSize: "22px", fontWeight: 700 }}>.</span>
         </div>
         <div
           style={{
@@ -110,12 +130,8 @@ export default function Sidebar() {
                 fontWeight: isActive ? 500 : 400,
                 color: isActive ? "#f0ede8" : "#7a7570",
                 textDecoration: "none",
-                borderLeft: isActive
-                  ? "2px solid #c8440f"
-                  : "2px solid transparent",
-                background: isActive
-                  ? "rgba(200, 68, 15, 0.06)"
-                  : "transparent",
+                borderLeft: isActive ? "2px solid #c8440f" : "2px solid transparent",
+                background: isActive ? "rgba(200, 68, 15, 0.06)" : "transparent",
                 transition: "color 0.15s ease, background 0.15s ease",
               }}
             >
@@ -195,13 +211,7 @@ export default function Sidebar() {
                 flexShrink: 0,
               }}
             />
-            <span
-              style={{
-                fontSize: "11px",
-                color: "#2a9d6e",
-                letterSpacing: "0.02em",
-              }}
-            >
+            <span style={{ fontSize: "11px", color: "#2a9d6e", letterSpacing: "0.02em" }}>
               Pulse running
             </span>
           </div>
