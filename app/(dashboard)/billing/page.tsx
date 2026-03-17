@@ -197,25 +197,12 @@ export default function BillingPage() {
           <div style={{ display: "flex", gap: "10px" }}>
             <button
               style={{
-                background: "#c8440f",
-                border: "none",
-                color: "#fff",
-                fontSize: "13px",
-                fontWeight: 600,
-                padding: "9px 20px",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-            >
-              Pay €940 now
-            </button>
-            <button
-              style={{
                 background: "transparent",
-                border: "1px solid #2a2927",
-                color: "#7a7570",
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "#f0ede8",
                 fontSize: "13px",
-                padding: "9px 16px",
+                fontWeight: 500,
+                padding: "9px 18px",
                 borderRadius: "6px",
                 cursor: "pointer",
               }}
@@ -338,16 +325,15 @@ export default function BillingPage() {
             marginTop: "16px",
             padding: "12px 16px",
             background: "#1a1917",
-            border: "1px solid #2a2927",
+            border: "1px solid rgba(255,255,255,0.07)",
             borderRadius: "6px",
             fontSize: "12px",
             color: "#7a7570",
             lineHeight: "1.6",
           }}
         >
-          Billing is performance-based. You are only charged for verified new first-time customers
-          delivered via Pulse-attributed Meta ad cycles, cross-referenced with Shopify first-order
-          data within the 60-day attribution window. Rate: <strong style={{ color: "#f0ede8" }}>€20 per new customer.</strong>
+          You are invoiced once per month for verified new customers only. Each customer is verified
+          against your Shopify first-purchase data before being included.
         </div>
       </div>
     </div>

@@ -5,26 +5,39 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   {
-    section: "Overview",
-    links: [
-      { label: "Dashboard", href: "/dashboard" },
-      { label: "Cycles", href: "/cycles" },
-      { label: "Creative", href: "/creative", placeholder: true },
-    ],
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <rect x="1" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+        <rect x="8.5" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+        <rect x="1" y="8.5" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+        <rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      </svg>
+    ),
   },
   {
-    section: "Reporting",
-    links: [
-      { label: "New Customers", href: "/customers" },
-      { label: "Attribution Log", href: "/attribution" },
-    ],
+    label: "Connections",
+    href: "/connections",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <circle cx="3" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <circle cx="12" cy="3" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M5 7.5H8.5M8.5 7.5L10 3M8.5 7.5L10 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    ),
   },
   {
-    section: "Settings",
-    links: [
-      { label: "Connections", href: "/connections" },
-      { label: "Billing", href: "/billing" },
-    ],
+    label: "Billing",
+    href: "/billing",
+    icon: (
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M1.5 6H13.5" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M4.5 9.5H6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    ),
   },
 ];
 
@@ -37,7 +50,7 @@ export default function Sidebar() {
         width: "220px",
         minWidth: "220px",
         background: "#0f0e0d",
-        borderRight: "1px solid #2a2927",
+        borderRight: "1px solid rgba(255,255,255,0.07)",
         display: "flex",
         flexDirection: "column",
         height: "100vh",
@@ -46,8 +59,13 @@ export default function Sidebar() {
       }}
     >
       {/* Logo */}
-      <div style={{ padding: "28px 24px 24px", borderBottom: "1px solid #2a2927" }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: "2px" }}>
+      <div
+        style={{
+          padding: "28px 24px 24px",
+          borderBottom: "1px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "baseline", gap: "1px" }}>
           <span
             style={{
               fontSize: "22px",
@@ -58,14 +76,16 @@ export default function Sidebar() {
           >
             Pulse
           </span>
-          <span style={{ color: "#c8440f", fontSize: "22px", fontWeight: 700 }}>.</span>
+          <span style={{ color: "#c8440f", fontSize: "22px", fontWeight: 700 }}>
+            .
+          </span>
         </div>
         <div
           style={{
             fontSize: "11px",
-            color: "#7a7570",
-            letterSpacing: "0.04em",
-            marginTop: "2px",
+            color: "#4a4744",
+            letterSpacing: "0.06em",
+            marginTop: "3px",
             textTransform: "uppercase",
           }}
         >
@@ -74,74 +94,52 @@ export default function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav style={{ flex: 1, padding: "16px 0", overflowY: "auto" }}>
-        {navItems.map((group) => (
-          <div key={group.section} style={{ marginBottom: "24px" }}>
-            <div
+      <nav style={{ flex: 1, padding: "12px 0" }}>
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
               style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "#7a7570",
-                padding: "0 24px",
-                marginBottom: "6px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "9px 20px 9px 22px",
+                fontSize: "13.5px",
+                fontWeight: isActive ? 500 : 400,
+                color: isActive ? "#f0ede8" : "#7a7570",
+                textDecoration: "none",
+                borderLeft: isActive
+                  ? "2px solid #c8440f"
+                  : "2px solid transparent",
+                background: isActive
+                  ? "rgba(200, 68, 15, 0.06)"
+                  : "transparent",
+                transition: "color 0.15s ease, background 0.15s ease",
               }}
             >
-              {group.section}
-            </div>
-            {group.links.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.placeholder ? "#" : link.href}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "8px 24px",
-                    fontSize: "14px",
-                    color: link.placeholder
-                      ? "#4a4744"
-                      : isActive
-                      ? "#f0ede8"
-                      : "#7a7570",
-                    textDecoration: "none",
-                    borderLeft: isActive ? "2px solid #c8440f" : "2px solid transparent",
-                    background: isActive ? "rgba(200, 68, 15, 0.06)" : "transparent",
-                    transition: "all 0.15s ease",
-                    cursor: link.placeholder ? "default" : "pointer",
-                  }}
-                >
-                  {link.label}
-                  {link.placeholder && (
-                    <span
-                      style={{
-                        marginLeft: "8px",
-                        fontSize: "10px",
-                        color: "#4a4744",
-                        background: "#1a1917",
-                        border: "1px solid #2a2927",
-                        padding: "1px 6px",
-                        borderRadius: "4px",
-                        letterSpacing: "0.05em",
-                      }}
-                    >
-                      Soon
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
-          </div>
-        ))}
+              <span
+                style={{
+                  color: isActive ? "#c8440f" : "#4a4744",
+                  transition: "color 0.15s ease",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {item.icon}
+              </span>
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Brand pill */}
       <div
         style={{
           padding: "16px 20px",
-          borderTop: "1px solid #2a2927",
+          borderTop: "1px solid rgba(255,255,255,0.07)",
           display: "flex",
           alignItems: "center",
           gap: "12px",
