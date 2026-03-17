@@ -155,6 +155,11 @@ export default function ConnectionsPage() {
                     </span>
                   )}
                 </div>
+                {conn.name === "Shopify" && (
+                  <div style={{ fontSize: "12px", color: "#4a4744", marginTop: "6px" }}>
+                    Already using Littledata or Elevar? Pulse connects in one click.
+                  </div>
+                )}
               </div>
 
               {/* Action */}
@@ -189,10 +194,9 @@ export default function ConnectionsPage() {
           lineHeight: "1.7",
         }}
       >
-        Pulse reads first-purchase data from Shopify and cross-references Meta ad touches.
-        You can verify any customer in the feed by clicking{" "}
-        <span style={{ color: "#c8440f" }}>'View in Shopify'</span>
-        {" "}on their card.
+        Pulse uses server-side first-purchase tracking — the same standard used by the best
+        ecommerce stacks. Every new customer in your feed is verified against your Shopify
+        order history. You can click any card in your dashboard and confirm it yourself.
       </div>
     </div>
   );
