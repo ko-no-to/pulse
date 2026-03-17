@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const SPRING = { type: "spring" as const, stiffness: 280, damping: 22 };
+
 type Customer = {
   id: string;
+  initials: string;
   value: string;
   days: number;
   cycle: string;
@@ -12,274 +15,158 @@ type Customer = {
   isNew?: boolean;
 };
 
-const CYCLES = [
-  "Skincare — broad interest",
-  "Wellness — lookalike 5%",
-  "Gifting — retrigger",
-];
+const CYCLES = ["Skincare — broad", "Wellness — lookalike", "Gifting — retrigger"];
 
-const SEED_CUSTOMERS: Customer[] = [
-  { id: "#4821", value: "€84",  days: 18, cycle: CYCLES[0], time: "Today, 14:32" },
-  { id: "#4820", value: "€112", days: 22, cycle: CYCLES[1], time: "Today, 11:47" },
-  { id: "#4819", value: "€67",  days: 14, cycle: CYCLES[0], time: "Today, 09:15" },
-  { id: "#4818", value: "€93",  days: 31, cycle: CYCLES[2], time: "Yesterday, 21:04" },
-  { id: "#4817", value: "€58",  days: 9,  cycle: CYCLES[0], time: "Yesterday, 16:22" },
-  { id: "#4816", value: "€145", days: 44, cycle: CYCLES[1], time: "Yesterday, 13:55" },
-  { id: "#4815", value: "€72",  days: 19, cycle: CYCLES[0], time: "Jan 14, 10:31" },
-  { id: "#4814", value: "€88",  days: 26, cycle: CYCLES[2], time: "Jan 14, 08:44" },
-  { id: "#4813", value: "€61",  days: 12, cycle: CYCLES[1], time: "Jan 13, 19:17" },
-  { id: "#4812", value: "€103", days: 37, cycle: CYCLES[0], time: "Jan 13, 15:02" },
-  { id: "#4811", value: "€79",  days: 21, cycle: CYCLES[2], time: "Jan 13, 11:38" },
-  { id: "#4810", value: "€134", days: 53, cycle: CYCLES[1], time: "Jan 12, 22:09" },
+const SEED: Customer[] = [
+  { id: "#4821", initials: "48", value: "€84",  days: 18, cycle: CYCLES[0], time: "Today, 14:32" },
+  { id: "#4820", initials: "48", value: "€145", days: 22, cycle: CYCLES[1], time: "Today, 11:47" },
+  { id: "#4819", initials: "48", value: "€67",  days: 14, cycle: CYCLES[0], time: "Today, 09:15" },
+  { id: "#4818", initials: "48", value: "€164", days: 31, cycle: CYCLES[2], time: "Yesterday, 21:04" },
+  { id: "#4817", initials: "48", value: "€52",  days: 9,  cycle: CYCLES[0], time: "Yesterday, 16:22" },
+  { id: "#4816", initials: "48", value: "€88",  days: 34, cycle: CYCLES[1], time: "Yesterday, 13:55" },
+  { id: "#4815", initials: "48", value: "€73",  days: 19, cycle: CYCLES[0], time: "Jan 14, 10:31" },
+  { id: "#4814", initials: "48", value: "€120", days: 26, cycle: CYCLES[2], time: "Jan 14, 08:44" },
+  { id: "#4813", initials: "48", value: "€62",  days: 12, cycle: CYCLES[1], time: "Jan 13, 19:17" },
+  { id: "#4812", initials: "48", value: "€156", days: 28, cycle: CYCLES[0], time: "Jan 13, 15:02" },
+  { id: "#4811", initials: "48", value: "€79",  days: 21, cycle: CYCLES[2], time: "Jan 13, 11:38" },
+  { id: "#4810", initials: "48", value: "€134", days: 33, cycle: CYCLES[1], time: "Jan 12, 22:09" },
 ];
 
 let nextId = 4822;
-function generateCustomer(): Customer {
-  const values = [58, 67, 72, 79, 84, 88, 93, 103, 112, 120, 134, 145];
-  const days = [7, 9, 11, 14, 16, 18, 20, 22, 25, 28, 31, 37, 44];
+function gen(): Customer {
+  const vals = [52, 62, 67, 73, 79, 84, 88, 120, 134, 145, 156, 164];
+  const days = [8, 9, 11, 14, 16, 18, 20, 22, 25, 28, 31, 34];
   const now = new Date();
-  const h = now.getHours().toString().padStart(2, "0");
-  const m = now.getMinutes().toString().padStart(2, "0");
+  const id = nextId++;
   return {
-    id: `#${nextId++}`,
-    value: `€${values[Math.floor(Math.random() * values.length)]}`,
+    id: `#${id}`,
+    initials: String(id).slice(0, 2),
+    value: `€${vals[Math.floor(Math.random() * vals.length)]}`,
     days: days[Math.floor(Math.random() * days.length)],
     cycle: CYCLES[Math.floor(Math.random() * CYCLES.length)],
-    time: `Today, ${h}:${m}`,
+    time: `Today, ${now.getHours().toString().padStart(2,"0")}:${now.getMinutes().toString().padStart(2,"0")}`,
     isNew: true,
   };
 }
 
 const PERIODS = ["This month", "Last 30 days", "Last 90 days"];
 
+function CustomerCard({ c }: { c: Customer }) {
+  return (
+    <div className="card-lift" style={{
+      background: "#FFFFFF",
+      border: "1px solid #E8E8E2",
+      borderLeft: c.isNew ? "3px solid #1A7A4A" : "1px solid #E8E8E2",
+      borderRadius: 12,
+      overflow: "hidden",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+      transition: "border-left-color 0.8s ease, box-shadow 0.2s ease",
+      position: "relative",
+    }}>
+      {/* New dot */}
+      {c.isNew && (
+        <span className="pulse-dot" style={{ position: "absolute", top: 14, right: 14, width: 7, height: 7, borderRadius: "50%", background: "#1A7A4A", display: "inline-block" }}/>
+      )}
+      {/* Row 1 */}
+      <div style={{ padding: "14px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#1A7A4A", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 700, color: "#FFFFFF", flexShrink: 0 }}>
+          {c.initials}
+        </div>
+        <div style={{ flex: 1, fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 600, color: "#1A1A18" }}>{c.id}</div>
+        <div style={{ textAlign: "right" }}>
+          <div style={{ fontFamily: "var(--font-ui)", fontSize: 15, fontWeight: 600, color: "#1A1A18" }}>{c.value}</div>
+          <div style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "#9B9B96" }}>{c.time}</div>
+        </div>
+      </div>
+      <div style={{ height: 1, background: "#E8E8E2" }}/>
+      {/* Row 2 */}
+      <div style={{ padding: "10px 20px", display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 500, color: "#156639", background: "#EBF7F0", padding: "2px 8px", borderRadius: 4 }}>First purchase</span>
+        <span style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "#6B6B66", background: "#F7F6F1", border: "1px solid #E8E8E2", padding: "2px 8px", borderRadius: 4 }}>{c.cycle}</span>
+        <span style={{ flex: 1 }}/>
+        <a href="#" style={{ fontFamily: "var(--font-ui)", fontSize: 13, fontWeight: 500, color: "#A33508", textDecoration: "none" }}>Verify in Shopify →</a>
+      </div>
+      {/* Row 3 */}
+      <div style={{ padding: "0 20px 12px", fontFamily: "var(--font-ui)", fontSize: 13, color: "#6B6B66" }}>
+        {c.days} days from first Pulse touch to purchase
+      </div>
+    </div>
+  );
+}
+
 export default function CustomersPage() {
-  const [customers, setCustomers] = useState<Customer[]>(SEED_CUSTOMERS);
+  const [customers, setCustomers] = useState<Customer[]>(SEED);
   const [count, setCount] = useState(47);
   const [period, setPeriod] = useState("This month");
 
-  // Clear isNew flag after 4s
+  // Clear isNew after 4s
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     customers.forEach((c) => {
       if (c.isNew) {
-        const t = setTimeout(() => {
-          setCustomers((prev) =>
-            prev.map((p) => (p.id === c.id ? { ...p, isNew: false } : p))
-          );
-        }, 4000);
-        timers.push(t);
+        timers.push(setTimeout(() => {
+          setCustomers((prev) => prev.map((p) => p.id === c.id ? { ...p, isNew: false } : p));
+        }, 4000));
       }
     });
     return () => timers.forEach(clearTimeout);
   }, [customers]);
 
-  // Simulate live arrivals every 60–90s
+  // Live arrivals
   useEffect(() => {
     function schedule(): ReturnType<typeof setTimeout> {
-      const delay = 60000 + Math.random() * 30000;
       return setTimeout(() => {
-        setCustomers((prev) => [generateCustomer(), ...prev]);
-        setCount((c) => c + 1);
+        setCustomers((prev) => [gen(), ...prev]);
+        setCount((n) => n + 1);
         schedule();
-      }, delay);
+      }, 60000 + Math.random() * 30000);
     }
     const t = schedule();
     return () => clearTimeout(t);
   }, []);
 
   return (
-    <div style={{ padding: "28px", background: "#F6F6F1", minHeight: "100%" }}>
+    <div style={{ padding: "28px", background: "#F0EFE9", minHeight: "100%" }}>
 
-      {/* Counter card */}
-      <div
-        style={{
-          background: "#FFFFFF",
-          border: "1px solid #E8E8E2",
-          borderRadius: "12px",
-          padding: "24px 28px",
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "24px",
-          flexWrap: "wrap",
-        }}
-      >
+      {/* Counter */}
+      <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E2", borderRadius: 12, padding: "24px 28px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
         <div>
-          <div
-            style={{
-              fontSize: "48px",
-              fontWeight: 700,
-              color: "#C8440F",
-              lineHeight: 1,
-              letterSpacing: "-0.03em",
-              marginBottom: "6px",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
-            {count}
+          <div style={{ fontFamily: "var(--font-display)", fontSize: 28, fontWeight: 600, color: "#1A1A18", letterSpacing: "-0.02em", marginBottom: 4 }}>
+            {count} new customers this month
           </div>
-          <div style={{ fontSize: "14px", color: "#1A1A18", fontWeight: 500, marginBottom: "3px" }}>
-            new customers this month
-          </div>
-          <div style={{ fontSize: "13px", color: "#6B6B66" }}>
-            Each verified against your Shopify first-purchase data · 60-day attribution window
+          <div style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "#6B6B66" }}>
+            Each verified against your Shopify first-purchase data
           </div>
         </div>
-
-        {/* Period selector */}
-        <div style={{ display: "flex", gap: "6px" }}>
+        <div style={{ display: "flex", gap: 6 }}>
           {PERIODS.map((p) => (
-            <button
-              key={p}
-              onClick={() => setPeriod(p)}
-              style={{
-                background: period === p ? "#FDF0EB" : "#FFFFFF",
-                border: `1px solid ${period === p ? "#C8440F" : "#D4D4CC"}`,
-                color: period === p ? "#A33508" : "#6B6B66",
-                fontSize: "13px",
-                fontWeight: period === p ? 500 : 400,
-                padding: "7px 14px",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
+            <button key={p} onClick={() => setPeriod(p)} style={{ background: period === p ? "#FDF0EB" : "#FFFFFF", border: `1px solid ${period === p ? "#C8440F" : "#D4D4CC"}`, color: period === p ? "#A33508" : "#6B6B66", fontFamily: "var(--font-ui)", fontSize: 13, fontWeight: period === p ? 500 : 400, padding: "7px 14px", borderRadius: 8, cursor: "pointer" }}>
               {p}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Feed label */}
-      <div
-        style={{
-          fontSize: "11px",
-          fontWeight: 600,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-          color: "#6B6B66",
-          marginBottom: "10px",
-        }}
-      >
+      {/* Label */}
+      <div style={{ fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#6B6B66", marginBottom: 10 }}>
         Live customer feed
       </div>
 
-      {/* Customer cards */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      {/* Feed */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <AnimatePresence initial={false}>
           {customers.map((c) => (
-            <motion.div
-              key={c.id}
-              layout
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              style={{
-                background: "#FFFFFF",
-                border: "1px solid #E8E8E2",
-                borderLeft: c.isNew ? "3px solid #1A7A4A" : "1px solid #E8E8E2",
-                borderRadius: "12px",
-                padding: "16px 20px",
-                display: "flex",
-                alignItems: "center",
-                gap: "16px",
-                transition: "border-left-color 0.6s ease",
-              }}
-            >
-              {/* Avatar */}
-              <div
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  borderRadius: "50%",
-                  background: "#EBF7F0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-                  <rect x="2" y="2" width="11" height="11" rx="2.5" stroke="#1A7A4A" strokeWidth="1.4" />
-                  <path d="M5 7.5L6.5 9L10 6" stroke="#1A7A4A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-
-              {/* Info */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    marginBottom: "4px",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#1A1A18" }}>{c.id}</span>
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 500,
-                      color: "#156639",
-                      background: "#EBF7F0",
-                      padding: "2px 8px",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    First purchase
-                  </span>
-                  <span style={{ fontSize: "15px", fontWeight: 600, color: "#1A1A18" }}>{c.value}</span>
-                </div>
-                <div style={{ fontSize: "13px", color: "#6B6B66", marginBottom: "5px" }}>
-                  {c.days} days from first Pulse touch to purchase
-                </div>
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "#6B6B66",
-                    background: "#FAFAF7",
-                    border: "1px solid #E8E8E2",
-                    padding: "2px 8px",
-                    borderRadius: "4px",
-                    display: "inline-block",
-                  }}
-                >
-                  {c.cycle}
-                </span>
-              </div>
-
-              {/* Right */}
-              <div style={{ textAlign: "right", flexShrink: 0 }}>
-                <div style={{ fontSize: "12px", color: "#9B9B96", marginBottom: "5px" }}>{c.time}</div>
-                <a href="#" style={{ fontSize: "13px", color: "#A33508", textDecoration: "none", fontWeight: 500 }}>
-                  Verify in Shopify →
-                </a>
-              </div>
+            <motion.div key={c.id} layout initial={{ opacity: 0, y: -24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={SPRING}>
+              <CustomerCard c={c}/>
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
       {/* Bottom note */}
-      <div
-        style={{
-          marginTop: "20px",
-          padding: "14px 18px",
-          background: "#FFFFFF",
-          border: "1px solid #E8E8E2",
-          borderRadius: "12px",
-          fontSize: "13px",
-          color: "#9B9B96",
-          lineHeight: "1.7",
-        }}
-      >
-        Pulse uses server-side first-purchase tracking. Every customer shown here placed their
-        first ever order with your store within 60 days of a Pulse ad touch. You can verify any
-        entry by clicking{" "}
-        <span style={{ color: "#6B6B66" }}>'Verify in Shopify'</span> on the card. Already
-        using Littledata or Elevar? Pulse connects in one click.
+      <div style={{ marginTop: 20, padding: "14px 18px", background: "#FFFFFF", border: "1px solid #E8E8E2", borderRadius: 12, fontFamily: "var(--font-ui)", fontSize: 13, color: "#9B9B96", lineHeight: 1.7 }}>
+        Pulse uses server-side first-purchase tracking. Every customer here placed their first order within 60 days of a Pulse ad touch. Verify any entry by clicking{" "}
+        <span style={{ color: "#6B6B66" }}>'Verify in Shopify'</span>. Already using Littledata or Elevar? Pulse connects in one click.
       </div>
     </div>
   );

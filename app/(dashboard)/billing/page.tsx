@@ -1,296 +1,122 @@
 "use client";
 
+import { useState } from "react";
 import Topbar from "../../components/Topbar";
 
-const invoiceHistory = [
-  { period: "January 2025",  customers: 47, fee: "€940", status: "Due",  dueDate: "Feb 1, 2025" },
-  { period: "December 2024", customers: 38, fee: "€760", status: "Paid", dueDate: "Jan 1, 2025" },
-  { period: "November 2024", customers: 28, fee: "€560", status: "Paid", dueDate: "Dec 1, 2024" },
-  { period: "October 2024",  customers: 22, fee: "€440", status: "Paid", dueDate: "Nov 1, 2024" },
+const history = [
+  { period: "December 2025", customers: 38, base: 299, perf: 342, total: 641 },
+  { period: "November 2025", customers: 28, base: 299, perf: 252, total: 551 },
+  { period: "October 2025",  customers: 22, base: 299, perf: 198, total: 497 },
 ];
 
 export default function BillingPage() {
+  const [explainerOpen, setExplainerOpen] = useState(false);
+
   return (
-    <div style={{ background: "#F6F6F1", minHeight: "100%" }}>
-      <Topbar title="Billing" />
-      <div style={{ padding: "28px", maxWidth: "860px" }}>
+    <div style={{ background: "#F0EFE9", minHeight: "100%" }}>
+      <Topbar title="Billing" subtitle="January 2026"/>
+      <div style={{ padding: "28px", maxWidth: 860 }}>
 
-        {/* Current period card */}
-        <div
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid #E8E8E2",
-            borderRadius: "12px",
-            padding: "28px 32px",
-            marginBottom: "20px",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "#6B6B66",
-              marginBottom: "20px",
-            }}
-          >
-            Current Period — January 2025
+        {/* ── CAC CONTEXT BANNER ── */}
+        <div style={{ background: "#EEF4FD", borderLeft: "3px solid #1D5FA8", borderRadius: "0 8px 8px 0", padding: "14px 20px", marginBottom: 20, fontFamily: "var(--font-ui)", fontSize: 14, color: "#1A1A18", lineHeight: 1.6 }}>
+          Your performance fee of{" "}
+          <span style={{ color: "#1D5FA8", fontWeight: 600 }}>€9 per new customer</span>{" "}
+          was set in your Pulse Check based on your AOV of{" "}
+          <span style={{ color: "#1D5FA8", fontWeight: 600 }}>€84</span>. Your blended cost of new customer acquisition is{" "}
+          <span style={{ color: "#1D5FA8", fontWeight: 600 }}>€31</span> — vs an estimated{" "}
+          <span style={{ color: "#1D5FA8", fontWeight: 600 }}>€91</span> on standard Meta conversion campaigns.
+        </div>
+
+        {/* ── CURRENT MONTH ── */}
+        <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E2", borderRadius: 12, padding: "28px 32px", marginBottom: 20, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 24 }}>
+            <div style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "#1A1A18" }}>January 2026</div>
+            <div style={{ fontFamily: "var(--font-ui)", fontSize: 13, color: "#9B9B96" }}>Due 1 Feb 2026</div>
           </div>
 
-          {/* Amount + status */}
-          <div style={{ display: "flex", alignItems: "flex-end", gap: "14px", marginBottom: "24px" }}>
-            <div
-              style={{
-                fontSize: "48px",
-                fontWeight: 700,
-                color: "#C8440F",
-                lineHeight: 1,
-                letterSpacing: "-0.03em",
-              }}
-            >
-              €940
-            </div>
-            <div style={{ paddingBottom: "8px" }}>
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontWeight: 500,
-                  color: "#B45309",
-                  background: "#FEF3E2",
-                  padding: "3px 10px",
-                  borderRadius: "6px",
-                }}
-              >
-                Due Feb 1
-              </span>
+          {/* Line items */}
+          <div style={{ border: "1px solid #E8E8E2", borderRadius: 8, overflow: "hidden", marginBottom: 20 }}>
+            {[
+              { label: "Base fee", sub: "Monthly system operation", qty: "", unit: "", total: "€299" },
+              { label: "New customers delivered", sub: "Pulse-attributed · 60-day window", qty: "47", unit: "× €9", total: "€423" },
+            ].map((row, i) => (
+              <div key={i} style={{ padding: "16px", borderBottom: "1px solid #E8E8E2", display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "#1A1A18" }}>{row.label}</div>
+                  <div style={{ fontFamily: "var(--font-ui)", fontSize: 12, color: "#9B9B96", marginTop: 2 }}>{row.sub}</div>
+                </div>
+                {row.qty && <span style={{ fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 600, color: "#1A1A18" }}>{row.qty}</span>}
+                {row.unit && <span style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "#6B6B66" }}>{row.unit}</span>}
+                <span style={{ fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 600, color: "#1A1A18", minWidth: 60, textAlign: "right" }}>{row.total}</span>
+              </div>
+            ))}
+            {/* Total row */}
+            <div style={{ padding: "16px", background: "#F7F6F1", display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
+              <span style={{ fontFamily: "var(--font-ui)", fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#1A1A18" }}>Total</span>
+              <span style={{ fontFamily: "var(--font-display)", fontSize: 28, fontWeight: 700, color: "#C8440F", letterSpacing: "-0.02em" }}>€722</span>
             </div>
           </div>
 
-          {/* Invoice table */}
-          <div
-            style={{
-              border: "1px solid #E8E8E2",
-              borderRadius: "8px",
-              overflow: "hidden",
-              marginBottom: "20px",
-            }}
-          >
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid #E8E8E2", background: "#FAFAF7" }}>
-                  {["Item", "Qty", "Unit Price", "Total"].map((h, i) => (
-                    <th
-                      key={h}
-                      style={{
-                        padding: "10px 16px",
-                        textAlign: i === 0 ? "left" : "right",
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        color: "#6B6B66",
-                      }}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr style={{ borderBottom: "1px solid #E8E8E2" }}>
-                  <td style={{ padding: "16px", fontSize: "14px", color: "#1A1A18" }}>
-                    New first-time customers delivered
-                    <div style={{ fontSize: "12px", color: "#9B9B96", marginTop: "2px" }}>
-                      Pulse-attributed · 60-day window · Meta + Shopify
-                    </div>
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px", color: "#1A1A18", textAlign: "right", fontWeight: 600 }}>47</td>
-                  <td style={{ padding: "16px", fontSize: "14px", color: "#6B6B66", textAlign: "right" }}>€20.00</td>
-                  <td style={{ padding: "16px", fontSize: "14px", color: "#1A1A18", textAlign: "right", fontWeight: 700 }}>€940.00</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: "16px", fontSize: "14px", color: "#9B9B96" }}>Platform fee</td>
-                  <td colSpan={2} />
-                  <td style={{ padding: "16px", fontSize: "14px", color: "#9B9B96", textAlign: "right" }}>€0</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr style={{ borderTop: "1px solid #E8E8E2", background: "#FAFAF7" }}>
-                  <td
-                    colSpan={3}
-                    style={{
-                      padding: "14px 16px",
-                      fontSize: "13px",
-                      fontWeight: 600,
-                      color: "#1A1A18",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    Total due
-                  </td>
-                  <td
-                    style={{
-                      padding: "14px 16px",
-                      fontSize: "16px",
-                      fontWeight: 700,
-                      color: "#C8440F",
-                      textAlign: "right",
-                    }}
-                  >
-                    €940.00
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-
-          <button
-            style={{
-              background: "#FFFFFF",
-              border: "1px solid #D4D4CC",
-              color: "#1A1A18",
-              fontSize: "14px",
-              fontWeight: 500,
-              padding: "10px 20px",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
-          >
-            Download Invoice
+          <button style={{ background: "#FFFFFF", border: "1px solid #D4D4CC", color: "#1A1A18", fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 500, padding: "10px 20px", borderRadius: 8, cursor: "pointer" }}>
+            Download invoice
           </button>
+
+          {/* Green verification note */}
+          <div style={{ marginTop: 16, padding: "12px 16px", background: "#EBF7F0", borderRadius: 8, fontFamily: "var(--font-ui)", fontSize: 13, color: "#156639", lineHeight: 1.6 }}>
+            47 new customers verified against your Shopify first-purchase data before inclusion in this invoice.
+          </div>
         </div>
 
-        {/* Invoice history */}
-        <div
-          style={{
-            fontSize: "11px",
-            fontWeight: 600,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            color: "#6B6B66",
-            marginBottom: "10px",
-          }}
-        >
-          Invoice History
+        {/* ── HISTORY TABLE ── */}
+        <div style={{ fontFamily: "var(--font-ui)", fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#6B6B66", marginBottom: 10 }}>
+          Previous invoices
+        </div>
+        <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E2", borderRadius: 12, overflow: "hidden", marginBottom: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+          {history.map((inv, i) => (
+            <div key={inv.period} style={{ padding: "14px 20px", borderBottom: i < history.length - 1 ? "1px solid #E8E8E2" : "none", display: "flex", alignItems: "center", gap: 16 }}
+                 onMouseEnter={(e) => (e.currentTarget.style.background = "#F7F6F1")}
+                 onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
+              <div style={{ fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 500, color: "#1A1A18", minWidth: 160 }}>{inv.period}</div>
+              <div style={{ fontFamily: "var(--font-ui)", fontSize: 14, color: "#6B6B66", flex: 1 }}>
+                {inv.customers} customers · €{inv.base} + €{inv.perf} ={" "}
+                <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, color: "#1A1A18" }}>€{inv.total}</span>
+              </div>
+              <span style={{ fontFamily: "var(--font-ui)", fontSize: 12, fontWeight: 500, color: "#156639", background: "#EBF7F0", padding: "2px 8px", borderRadius: 4, flexShrink: 0 }}>Paid</span>
+              <button style={{ background: "transparent", border: "1px solid #E8E8E2", color: "#6B6B66", fontFamily: "var(--font-ui)", fontSize: 12, padding: "4px 12px", borderRadius: 6, cursor: "pointer", flexShrink: 0 }}>
+                Download
+              </button>
+            </div>
+          ))}
         </div>
 
-        <div
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid #E8E8E2",
-            borderRadius: "12px",
-            overflow: "hidden",
-            marginBottom: "16px",
-          }}
-        >
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr style={{ borderBottom: "1px solid #E8E8E2", background: "#FAFAF7" }}>
-                {["Period", "New Customers", "Amount", "Due Date", "Status", ""].map((h) => (
-                  <th
-                    key={h}
-                    style={{
-                      padding: "11px 20px",
-                      textAlign: "left",
-                      fontSize: "11px",
-                      fontWeight: 600,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "#6B6B66",
-                    }}
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {invoiceHistory.map((inv, i) => (
-                <tr
-                  key={inv.period}
-                  style={{ borderBottom: i < invoiceHistory.length - 1 ? "1px solid #E8E8E2" : "none" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "#FAFAF7")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                >
-                  <td style={{ padding: "14px 20px", fontSize: "14px", fontWeight: 500, color: "#1A1A18" }}>
-                    {inv.period}
-                  </td>
-                  <td style={{ padding: "14px 20px", fontSize: "14px", color: "#6B6B66" }}>
-                    {inv.customers}
-                  </td>
-                  <td style={{ padding: "14px 20px", fontSize: "14px", fontWeight: 600, color: "#1A1A18" }}>
-                    {inv.fee}
-                  </td>
-                  <td style={{ padding: "14px 20px", fontSize: "14px", color: "#6B6B66" }}>
-                    {inv.dueDate}
-                  </td>
-                  <td style={{ padding: "14px 20px" }}>
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        color: inv.status === "Paid" ? "#156639" : "#B45309",
-                        background: inv.status === "Paid" ? "#EBF7F0" : "#FEF3E2",
-                        padding: "3px 10px",
-                        borderRadius: "6px",
-                      }}
-                    >
-                      {inv.status}
-                    </span>
-                  </td>
-                  <td style={{ padding: "14px 20px", textAlign: "right" }}>
-                    <button
-                      style={{
-                        background: "#FFFFFF",
-                        border: "1px solid #E8E8E2",
-                        color: "#6B6B66",
-                        fontSize: "12px",
-                        padding: "4px 12px",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Download
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {/* Trend callout */}
+        <div style={{ padding: "12px 16px", background: "#EBF7F0", borderRadius: 8, fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 500, color: "#156639", marginBottom: 12 }}>
+          ↑ New customers up 31% month over month since October
         </div>
 
-        {/* Trend note */}
-        <div
-          style={{
-            padding: "12px 16px",
-            background: "#EBF7F0",
-            border: "1px solid #1A7A4A",
-            borderRadius: "8px",
-            fontSize: "14px",
-            color: "#156639",
-            fontWeight: 500,
-            marginBottom: "10px",
-          }}
-        >
-          ↑ New customers growing 31% month over month
-        </div>
-
-        {/* Pricing note */}
-        <div
-          style={{
-            padding: "12px 16px",
-            background: "#FFFFFF",
-            border: "1px solid #E8E8E2",
-            borderRadius: "8px",
-            fontSize: "13px",
-            color: "#9B9B96",
-            lineHeight: "1.6",
-          }}
-        >
-          You are invoiced once per month for verified new customers only. Verification uses your
-          Shopify first-purchase data. You can cross-check every line against your Shopify orders.
+        {/* ── COLLAPSIBLE PRICING EXPLAINER ── */}
+        <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E2", borderRadius: 12, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+          <button
+            onClick={() => setExplainerOpen((v) => !v)}
+            style={{ width: "100%", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "transparent", border: "none", cursor: "pointer" }}
+          >
+            <span style={{ fontFamily: "var(--font-ui)", fontSize: 14, fontWeight: 600, color: "#1A1A18" }}>How Pulse pricing works</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: explainerOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
+              <path d="M4 6L8 10L12 6" stroke="#9B9B96" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          {explainerOpen && (
+            <div style={{ padding: "0 20px 20px", fontFamily: "var(--font-ui)", fontSize: 14, color: "#6B6B66", lineHeight: 1.7, borderTop: "1px solid #E8E8E2" }}>
+              <p style={{ marginTop: 16 }}>Pulse charges a fixed monthly base fee of €299, plus a performance fee per new customer delivered — set during your Pulse Check based on your AOV and LTV.</p>
+              <p>You only pay the performance fee for verified new customers: people confirmed as first-time buyers in your Shopify data, within a 60-day attribution window.</p>
+              <div style={{ background: "#F7F6F1", border: "1px solid #E8E8E2", borderRadius: 8, padding: "14px 16px", marginTop: 4, fontSize: 13 }}>
+                <div style={{ marginBottom: 6 }}>Your AOV: <strong style={{ color: "#1A1A18" }}>€84</strong> · Meta new customer CAC benchmark: <strong style={{ color: "#1A1A18" }}>~€37</strong> (2025)</div>
+                <div style={{ marginBottom: 6 }}>Your Pulse blended CAC: <strong style={{ color: "#C8440F" }}>€31</strong></div>
+                <div>Saving vs standard Meta acquisition: <strong style={{ color: "#1A7A4A" }}>~€6 per customer</strong></div>
+              </div>
+              <p style={{ marginTop: 14 }}>As Pulse delivers more customers, your fee grows — because your revenue grows proportionally.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --background: #F6F6F1;
+  --bg: #F0EFE9;
   --surface: #FFFFFF;
-  --surface-raised: #FAFAF7;
+  --surface-raised: #F7F6F1;
   --ink: #1A1A18;
   --muted: #6B6B66;
   --subtle: #9B9B96;
@@ -21,37 +21,41 @@
   --amber-light: #FEF3E2;
   --blue: #1D5FA8;
   --blue-light: #EEF4FD;
+
+  /* Display: Georgia provides the serif weight for hero numbers and titles.
+     When Fraunces is available (network build) swap var(--font-fraunces) in. */
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-ui: var(--font-geist), system-ui, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   color: var(--ink);
-  background: var(--background);
-  font-family: Inter, var(--font-geist-sans), system-ui, sans-serif;
+  background: var(--bg);
+  font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(0.8); }
+/* ── Pulse running heartbeat dot ── */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.4; }
+}
+.pulse-dot {
+  animation: heartbeat 2s ease-in-out infinite;
 }
 
-.animate-pulse-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
+/* ── Card spring on hover ── */
+.card-lift {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-lift:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: 2px;
-}
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
