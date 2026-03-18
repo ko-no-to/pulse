@@ -64,7 +64,7 @@ const connections = [
 
 export default function ConnectionsPage() {
   return (
-    <div style={{ background: "#F0EFE9", minHeight: "100%" }}>
+    <div style={{ background: "var(--bg)", minHeight: "100%" }}>
       <Topbar title="Connections"/>
       <div style={{ padding: "28px", maxWidth: 760 }}>
 

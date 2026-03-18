@@ -13,7 +13,7 @@ export default function BillingPage() {
   const [explainerOpen, setExplainerOpen] = useState(false);
 
   return (
-    <div style={{ background: "#F0EFE9", minHeight: "100%" }}>
+    <div style={{ background: "var(--bg)", minHeight: "100%" }}>
       <Topbar title="Billing" subtitle="January 2026"/>
       <div style={{ padding: "28px", maxWidth: 860 }}>
 

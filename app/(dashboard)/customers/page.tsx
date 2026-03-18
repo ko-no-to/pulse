@@ -126,7 +126,7 @@ export default function CustomersPage() {
   }, []);
 
   return (
-    <div style={{ padding: "28px", background: "#F0EFE9", minHeight: "100%" }}>
+    <div style={{ padding: "28px", background: "var(--bg)", minHeight: "100%" }}>
 
       {/* Counter */}
       <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E2", borderRadius: 12, padding: "24px 28px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>

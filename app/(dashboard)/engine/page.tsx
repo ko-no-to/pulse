@@ -188,7 +188,7 @@ function ConvertRow({ name, id }: { name: string; id: string }) {
 
 export default function EnginePage() {
   return (
-    <div style={{ padding: "28px", background: "#F0EFE9", minHeight: "100%" }}>
+    <div style={{ padding: "28px", background: "var(--bg)", minHeight: "100%" }}>
       <StatusBar/>
 
       {/* ── PAGE HEADING ── */}
