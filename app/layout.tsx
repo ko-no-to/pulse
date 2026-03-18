@@ -11,8 +11,7 @@ const geistSans = localFont({
 
 export const metadata: Metadata = {
   title: "Pulse — New Customer Engine",
-  description:
-    "Pulse generates new first-time customers for ecommerce brands through automated paid social cycles.",
+  description: "Automated new customer acquisition for ecommerce brands.",
 };
 
 export default function RootLayout({

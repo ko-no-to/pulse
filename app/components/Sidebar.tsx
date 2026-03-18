@@ -1,115 +1,106 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-const NAV = [
-  {
-    label: "Dashboard",
-    href: "/dashboard",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-        <rect x="1" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
-        <rect x="8.5" y="1" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
-        <rect x="1" y="8.5" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
-        <rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1" stroke="currentColor" strokeWidth="1.4"/>
-      </svg>
-    ),
-  },
-  {
-    label: "Billing",
-    href: "/billing",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-        <rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
-        <path d="M1.5 6H13.5" stroke="currentColor" strokeWidth="1.4"/>
-        <path d="M4.5 9.5H6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-      </svg>
-    ),
-  },
-  {
-    label: "Connections",
-    href: "/connections",
-    icon: (
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-        <circle cx="3" cy="7.5" r="2" stroke="currentColor" strokeWidth="1.4"/>
-        <circle cx="12" cy="3" r="2" stroke="currentColor" strokeWidth="1.4"/>
-        <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.4"/>
-        <path d="M5 7.5H8.5M8.5 7.5L10 3M8.5 7.5L10 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-      </svg>
-    ),
-  },
-];
+interface SidebarProps {
+  onSettingsClick: () => void;
+}
 
-export default function Sidebar() {
+export default function Sidebar({ onSettingsClick }: SidebarProps) {
   const pathname = usePathname();
+  const homeActive = pathname === "/dashboard" || pathname === "/";
 
   return (
     <aside style={{
       width: 220, minWidth: 220,
-      background: "var(--sidebar)",
+      background: "#111111",
+      borderRight: "1px solid rgba(255,255,255,0.07)",
       display: "flex", flexDirection: "column",
-      height: "100vh", position: "sticky", top: 0,
+      height: "100vh", position: "sticky", top: 0, zIndex: 20,
     }}>
 
       {/* Logo */}
-      <div style={{ padding: "20px 16px 16px" }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 1 }}>
-          <span style={{ fontFamily: "var(--font-ui)", fontSize: 18, fontWeight: 600, color: "#FFFFFF", letterSpacing: "-0.01em" }}>Pulse</span>
-          <span style={{ color: "var(--accent)", fontSize: 18, fontWeight: 600 }}>.</span>
+      <div style={{ padding: "20px 16px 14px" }}>
+        <div style={{ fontFamily: "var(--font-inter)", fontSize: 16, fontWeight: 600, color: "#FFFFFF", letterSpacing: "-0.01em" }}>
+          Pulse<span style={{ color: "var(--accent)" }}>.</span>
         </div>
-        <div style={{ fontFamily: "var(--font-ui)", fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em", textTransform: "uppercase", marginTop: 3 }}>
+        <div style={{ fontFamily: "var(--font-inter)", fontSize: 11, color: "rgba(255,255,255,0.38)", marginTop: 3 }}>
           New customer engine
         </div>
       </div>
 
       {/* Nav */}
-      <nav style={{ flex: 1, padding: "4px 10px", overflowY: "auto" }}>
-        {NAV.map((item) => {
-          const active = pathname === item.href || (item.href === "/dashboard" && pathname === "/");
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                display: "flex", alignItems: "center", gap: 9,
-                padding: "8px 10px", marginBottom: 2,
-                borderRadius: 8,
-                fontFamily: "var(--font-ui)",
-                fontSize: 14, fontWeight: active ? 500 : 400,
-                color: active ? "#FFFFFF" : "rgba(255,255,255,0.5)",
-                textDecoration: "none",
-                background: active ? "rgba(255,255,255,0.1)" : "transparent",
-                transition: "background 0.12s, color 0.12s",
-              }}
-            >
-              <span style={{ color: active ? "#FFFFFF" : "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", flexShrink: 0 }}>
-                {item.icon}
-              </span>
-              <span style={{ flex: 1 }}>{item.label}</span>
-            </Link>
-          );
-        })}
+      <nav style={{ flex: 1, padding: "4px 8px" }}>
+        {/* Home */}
+        <Link
+          href="/dashboard"
+          style={{
+            display: "flex", alignItems: "center", gap: 9,
+            padding: "7px 12px", borderRadius: 7,
+            marginBottom: 2,
+            fontFamily: "var(--font-inter)", fontSize: 13, fontWeight: 400,
+            color: homeActive ? "#FFFFFF" : "rgba(255,255,255,0.55)",
+            textDecoration: "none",
+            background: homeActive ? "rgba(255,255,255,0.08)" : "transparent",
+            borderLeft: homeActive ? "2px solid var(--accent)" : "2px solid transparent",
+            transition: "background 0.12s, color 0.12s",
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, opacity: homeActive ? 0.9 : 0.5 }}>
+            <rect x="1.5" y="1.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="9.5" y="1.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="1.5" y="9.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.4"/>
+            <rect x="9.5" y="9.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.4"/>
+          </svg>
+          Home
+        </Link>
+
+        {/* Settings */}
+        <button
+          onClick={onSettingsClick}
+          style={{
+            display: "flex", alignItems: "center", gap: 9,
+            padding: "7px 12px", borderRadius: 7,
+            marginBottom: 2, width: "100%",
+            fontFamily: "var(--font-inter)", fontSize: 13, fontWeight: 400,
+            color: "rgba(255,255,255,0.55)",
+            textAlign: "left",
+            background: "transparent",
+            border: "2px solid transparent",
+            borderLeft: "2px solid transparent",
+            transition: "background 0.12s, color 0.12s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+            e.currentTarget.style.color = "rgba(255,255,255,0.8)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "transparent";
+            e.currentTarget.style.color = "rgba(255,255,255,0.55)";
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, opacity: 0.5 }}>
+            <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.4"/>
+            <path d="M8 1.5V3M8 13V14.5M1.5 8H3M13 8H14.5M3.3 3.3L4.4 4.4M11.6 11.6L12.7 12.7M12.7 3.3L11.6 4.4M4.4 11.6L3.3 12.7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+          </svg>
+          Settings
+        </button>
       </nav>
 
-      {/* Brand pill */}
-      <div style={{ padding: "12px 10px 16px", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-        <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 10, padding: "12px 14px", display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-ui)", fontSize: 10, fontWeight: 700, color: "#FFFFFF", letterSpacing: "0.04em", flexShrink: 0 }}>
+      {/* Bottom: store info */}
+      <div style={{ padding: "12px 16px 16px", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+          <div style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--accent)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-inter)", fontSize: 11, fontWeight: 600, color: "#FFFFFF", flexShrink: 0, letterSpacing: "0.02em" }}>
             NB
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: "var(--font-ui)", fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.85)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-              Noïse Botanics
-            </div>
+          <div>
+            <div style={{ fontFamily: "var(--font-inter)", fontSize: 13, fontWeight: 500, color: "#FFFFFF" }}>Noïse Botanics</div>
             <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 2 }}>
-              <span className="pulse-dot" style={{ width: 5, height: 5, borderRadius: "50%", background: "#4ADE80", display: "inline-block", flexShrink: 0 }}/>
-              <span style={{ fontFamily: "var(--font-ui)", fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Pulse running</span>
+              <span className="pulse-dot" style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--green)", display: "inline-block", flexShrink: 0 }}/>
+              <span style={{ fontFamily: "var(--font-inter)", fontSize: 11, color: "rgba(255,255,255,0.38)" }}>Pulse running</span>
             </div>
           </div>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, color: "rgba(255,255,255,0.25)" }}>
-            <path d="M4.5 3L7.5 6L4.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
         </div>
       </div>
     </aside>

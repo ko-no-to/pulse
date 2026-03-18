@@ -1,63 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #F2F2F0;
-  --sidebar: #1A1A1A;
-  --surface: #FFFFFF;
-  --surface-2: #F7F7F5;
-  --surface-3: #EFEFEC;
-  --ink: #1A1A18;
-  --muted: #6B6B66;
-  --subtle: #9B9B96;
-  --border: #E5E5E0;
-  --border-strong: #CECEC7;
-  --accent: #C8440F;
-  --accent-light: #FDF0EB;
-  --accent-text: #A33508;
-  --green: #1A7A4A;
-  --green-light: #EBF7F0;
-  --green-text: #156639;
-  --amber: #B45309;
-  --amber-light: #FEF3E2;
-  --blue: #1D5FA8;
-  --blue-light: #EEF4FD;
+  --bg:         #F5F5F5;
+  --surface:    #FFFFFF;
+  --sidebar:    #111111;
+  --ink:        #0F0F0F;
+  --muted:      #6B7280;
+  --subtle:     #9CA3AF;
+  --border:     #E5E7EB;
 
-  /* Display: Georgia provides the serif weight for hero numbers and titles.
-     When Fraunces is available (network build) swap var(--font-fraunces) in. */
-  --font-display: Georgia, "Times New Roman", serif;
-  --font-ui: var(--font-geist), system-ui, sans-serif;
+  --accent:      #C8440F;
+  --accent-bg:   #FEF2EE;
+  --accent-text: #9A3412;
+
+  --green:       #16A34A;
+  --green-bg:    #F0FDF4;
+  --green-text:  #15803D;
+
+  --amber:       #D97706;
+  --amber-bg:    #FFFBEB;
+
+  --blue:        #2563EB;
+  --blue-bg:     #EFF6FF;
+
+  --font-inter: 'Inter', var(--font-geist), system-ui, -apple-system, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  color: var(--ink);
+  font-family: var(--font-inter);
   background: var(--bg);
-  font-family: var(--font-ui);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Pulse running heartbeat dot ── */
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1);   opacity: 1; }
-  50%       { transform: scale(1.4); opacity: 0.4; }
+@keyframes pulse-beat {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(1.5); }
 }
-.pulse-dot {
-  animation: heartbeat 2s ease-in-out infinite;
-}
+.pulse-dot { animation: pulse-beat 2s ease-in-out infinite; }
 
-/* ── Card spring on hover ── */
-.card-lift {
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-.card-lift:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transform: translateY(-1px);
-}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+button { font-family: var(--font-inter); cursor: pointer; }
+a { font-family: var(--font-inter); }
